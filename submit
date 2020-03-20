@@ -1,0 +1,51 @@
+Dim cn As SqlClient.SqlConnection
+        Dim Cell As String = ("select * from teacher where 教师编号='" & TextBox1.Text & "'")
+        Dim radio As TextBox
+        Dim cnStr As String = "Data Source=ZJ-00080\SQLEXPRESS;Initial Catalog=cjglxt;Integrated Security=True"
+        cn = New SqlClient.SqlConnection(cnStr)
+
+        Dim myCommandCell As New SqlClient.SqlCommand(Cell, cn)
+
+
+
+
+        cn.Open()
+        If TextBox1.Text = "" Then
+            MessageBox.Show("请输入教师编号"）
+        ElseIf TextBox2.Text = "" Then
+            MessageBox.Show("请输入姓名")
+        ElseIf TextBox4.Text = "" Then
+            MessageBox.Show("请输入生日")
+        ElseIf TextBox5.Text = "" Then
+            MessageBox.Show("请输入家庭住址")
+        ElseIf myCommandCell.ExecuteScalar() Then
+
+            MessageBox.Show("登录信息失败")
+        Else
+            If RadioButton1.Checked = True Then
+                Dim Strxzyh As String
+                Strxzyh = "insert into teacher (教师编号,姓名,性别,生日,负责科目,家庭住址) " &
+                       "values ('" & TextBox1.Text & "' ,'" & TextBox2.Text & "', ' 男 ' ,'" & TextBox4.Text & "','" & ComboBox1.Text & "','" & TextBox5.Text & "')"
+                Dim myComm As New SqlClient.SqlCommand(Strxzyh, cn)
+                myComm.ExecuteNonQuery()
+
+                MessageBox.Show("登录信息成功")
+            ElseIf RadioButton2.Checked = True Then
+                Dim Strxzyh As String
+                Strxzyh = "insert into teacher (教师编号,姓名,性别,生日,负责科目,家庭住址) " &
+                       "values ('" & TextBox1.Text & "' ,'" & TextBox2.Text & "',  ' 女 '  ,'" & TextBox4.Text & "','" & ComboBox1.Text & "','" & TextBox5.Text & "')"
+                Dim myComm As New SqlClient.SqlCommand(Strxzyh, cn)
+                myComm.ExecuteNonQuery()
+
+                MessageBox.Show("登录信息成功")
+            Else
+                MessageBox.Show("请选择性别")
+            End If
+            cn.Close()
+
+
+
+        End If
+
+
+            cn.Close()
