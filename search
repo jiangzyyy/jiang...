@@ -1,0 +1,29 @@
+ Dim cn As SqlClient.SqlConnection
+        Dim da As SqlClient.SqlDataAdapter
+        Dim ds As DataSet
+        Dim Cell As String = ("select * from exam where 学号='" & TextBox1.Text & "' and 姓名='" & TextBox2.Text & "' and 班级='" & TextBox3.Text & "'")
+
+        Dim cnStr As String = "Data Source=ZJ-00080\SQLEXPRESS;Initial Catalog=cjglxt;Integrated Security=True"
+        cn = New SqlClient.SqlConnection(cnStr)
+
+        Dim myCommandCell As New SqlClient.SqlCommand(Cell, cn)
+
+        cn.Open()
+        If TextBox1.Text = "" Then
+            MessageBox.Show("请输入学号")
+        ElseIf TextBox3.Text = "" Then
+            MessageBox.Show("请输入姓名")
+        ElseIf TextBox2.Text = "" Then
+            MessageBox.Show("请输入班级")
+        ElseIf myCommandCell.ExecuteScalar() Then
+
+            da = New SqlClient.SqlDataAdapter("Select 学号, 姓名, 性别, 生日, 班级,家庭住址 from student Where 学号 ='" & TextBox1.Text & "'", cn)
+            ds = New DataSet()
+            da.Fill(ds, "student")
+            DataGridView1.DataSource = ds.Tables("student")
+        Else
+            MessageBox.Show("输入的信息有误")
+        End If
+
+
+        cn.Close()
